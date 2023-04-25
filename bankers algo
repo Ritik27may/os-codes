@@ -1,0 +1,65 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+ 
+    int n, m;
+    n = 5; 
+    m = 3;
+    int allocated[5][3] = { { 0, 1, 0 },
+                        { 2, 0, 0 }, 
+                        { 3, 0, 2 }, 
+                        { 2, 1, 1 }, 
+                        { 0, 0, 2 } }; 
+ 
+    int maxneed[5][3] = { { 7, 5, 3 }, 
+                      { 3, 2, 2 }, 
+                      { 9, 0, 2 }, 
+                      { 2, 2, 2 },
+                      { 4, 3, 3 } }; 
+ 
+    int available[3] = { 3, 3, 2 }; 
+     int need[n][m];
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++)
+            need[i][j] = maxneed[i][j] - allocated[i][j];
+    }
+    int ans[n],check[n],index=0;
+    for(int i=0;i<n;i++){
+      check[i]=0;
+    }
+    for(int k=0;k<5;k++){
+      for(int i=0;i<n;i++){
+        if(check[i]==0){
+          int flag=0;
+          for(int j=0;j<m;j++){
+            if(need[i][j]>available[j]){
+              flag=1;
+              break;
+            }
+          }
+            if(flag==0){
+              ans[index++]=i;
+              for(int y=0;y<m;y++){
+                  available[y]+=allocated[i][y];
+                  check[i]=1;
+              }
+            }
+        }
+      }
+    }
+    int flag=1;
+    for(int i=0;i<n;i++){
+      if(check[i]==0){
+        flag=0;
+        cout<<"not safe"<<endl;
+        break;
+      }
+    }
+    if(flag==1){
+      cout<<"the safe sequence is:"<<endl;
+     for(int i=0;i<n;i++){
+      cout<<"p->"<<ans[i]<<endl;
+    }
+    }
+}
